@@ -1,0 +1,57 @@
+﻿<Window x:Class="ImageUtils.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageUtils"
+        mc:Ignorable="d"
+        Title="ImageUtils" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Import" Name="ImportImage" Click="ImportImage_Click"></MenuItem>
+            </MenuItem>
+            
+            <MenuItem Header="Effects">
+                <MenuItem Header="Low-Colour" Name="LowColourEffect" Click="LowColourEffect_Click">
+                    <MenuItem Header="Low-Colour" Click="LowColourEffect_Click"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="Deep-fry" Name="LowColourEffectDeepFry" Click="LowColourEffectDeepFry_Click"></MenuItem>
+                </MenuItem>
+
+                <MenuItem Header="Brightness" Name="Brightness">
+                    <MenuItem Header="Darken" Name="BrightnessDarkenEffects" Click="BrightnessDarkenEffects_Click"></MenuItem>
+                    <MenuItem Header="Matte darken" Name="BrightnessMatteDarkenEffects" Click="BrightnessMatteDarkenEffects_Click"></MenuItem>
+                    <MenuItem Header="Sheen darken" Name="BrightnessSheenDarkenEffects" Click="BrightnessSheenDarkenEffects_Click"></MenuItem>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Tools/Utilities">
+                <MenuItem Header="Resize Window to match image" Name="ResizeWindowMatchImageSizeTools_Utils" Click="ResizeWindowMatchImageSizeTools_Utils_Click"></MenuItem>
+                <MenuItem Header="Compression" Name="CompressionTools_Utils" Click="CompressionTools_Utils_Click"></MenuItem>
+                <MenuItem Header="Remove/Replace pixels" Name="Remove_ReplacePixelsTools_Utils" Click="Remove_ReplacePixelsTools_Utils_Click"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="View">
+                <MenuItem Header="Image statistics" Name="ImageStatsView" Click="ImageStatsView_Click"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Project">
+                <MenuItem Header="Reset Project"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Layers">
+                <MenuItem Header="Split Layers"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Rectangle Grid.Row="1" Fill="#171717"></Rectangle>
+        <Image Grid.Row="1" Name="MainImage"></Image>
+    </Grid>
+</Window>

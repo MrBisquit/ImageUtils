@@ -1,0 +1,42 @@
+﻿<Window x:Class="ImageUtils.Windows.PixelRemoveReplace"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageUtils.Windows"
+        mc:Ignorable="d"
+        Title="Remove/Replace Pixels" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock>Defaults</TextBlock>
+                    <Button>White background (#fff/#ffffff)</Button>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Rectangle Grid.Column="1" Fill="#171717"></Rectangle>
+            <Image Grid.Column="1" Name="MainImage"></Image>
+        </Grid>
+
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="6">
+            <DockPanel>
+                <Button DockPanel.Dock="Left" Width="100" Name="CancelBtn" Click="CancelBtn_Click">Cancel</Button>
+                <Label></Label>
+                <!-- Make-do spacing because spacing doesn't exist for some reason lol -->
+                <Button DockPanel.Dock="Right" Width="100">Finish</Button>
+            </DockPanel>
+        </WrapPanel>
+    </Grid>
+</Window>
