@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageUtils.Project;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -101,6 +102,28 @@ namespace ImageUtils.Windows
             //WindowStyle = WindowStyle.None;
 
             UpdateLayers();
+
+            Events.LayerUpdate += (object? sender, EventArgs args) =>
+            {
+                UpdateLayers();
+            };
+
+            LayersOC.CollectionChanged += LayersOC_CollectionChanged;
+        }
+
+        bool MidChange = false;
+        private void LayersOC_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (MidChange) return;
+
+            LayerManager.Layers.Clear();
+
+            foreach (var item in LayersOC)
+            {
+                LayerManager.Layers.Add(item);
+            }
+
+            //UpdateLayers();
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
@@ -112,15 +135,19 @@ namespace ImageUtils.Windows
             Height = Globals.mainWindow.Height - 30;
         }
 
-        ObservableCollection<Project.Layer> LayersOC = new ObservableCollection<Project.Layer>();
+        ObservableCollection<Layer> LayersOC = new ObservableCollection<Layer>();
 
         private void UpdateLayers()
         {
+            MidChange = true;
+
             Project.LayerManager.Layers.ForEach(layer =>
             {
-                layer.Name = $"Layer {layer.LayerLevel}";
+                //layer.Name = $"Layer {layer.LayerLevel}";
                 layer.Preview = Globals.mainWindow.ToBitmapImage(layer.Content);
             });
+
+            LayersOC.Clear();
 
             Project.LayerManager.Layers.ForEach(layer =>
             {
@@ -129,6 +156,8 @@ namespace ImageUtils.Windows
 
             LayerListBox.ItemsSource = LayersOC;
             LayerListBox.Items.Refresh();
+
+            MidChange = false;
         }
 
         // Bing AI
@@ -238,6 +267,8 @@ namespace ImageUtils.Windows
             {
                 layerItem.Visible = true;
             }
+
+            Events.RaiseLayerUpdate(EventArgs.Empty);
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -247,6 +278,8 @@ namespace ImageUtils.Windows
             {
                 layerItem.Visible = false;
             }
+
+            Events.RaiseLayerUpdate(EventArgs.Empty);
         }
 
         private void CheckBox_MouseDown(object sender, MouseButtonEventArgs e)
@@ -279,6 +312,78 @@ namespace ImageUtils.Windows
             if (data != null)
             {
                 DragDrop.DoDragDrop(listBox, data, DragDropEffects.Move);
+            }
+        }
+
+        private void Dupe_Click(object sender, RoutedEventArgs e)
+        {
+            LayersOC.Insert(LayerListBox.SelectedIndex + 1, LayersOC[LayerListBox.SelectedIndex]);
+        }
+
+        private void Del_Click(object sender, RoutedEventArgs e)
+        {
+            if(LayersOC.Count == 1) return;
+
+            LayersOC.RemoveAt(LayerListBox.SelectedIndex);
+        }
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            if(LayerListBox.SelectedIndex == -1)
+            {
+                LayerListBox.SelectedIndex = 0;
+            }
+
+            if (LayerListBox.SelectedIndex == 0) MoveUp.IsEnabled = false;
+            else MoveUp.IsEnabled = true;
+
+            if (LayerListBox.SelectedIndex == LayersOC.Count - 1) MoveDown.IsEnabled = false;
+            else MoveDown.IsEnabled = true;
+
+            if (LayersOC.Count == 1) Del.IsEnabled = false;
+            else Del.IsEnabled = true;
+        }
+
+        private void MoveUp_Click(object sender, RoutedEventArgs e)
+        {
+            Layer _movingLayer = LayersOC[LayerListBox.SelectedIndex];
+            
+            LayersOC.Insert(LayerListBox.SelectedIndex - 1, _movingLayer);
+            LayersOC.RemoveAt(LayerListBox.SelectedIndex);
+        }
+
+        private void MoveDown_Click(object sender, RoutedEventArgs e)
+        {
+            Layer _movingLayer = LayersOC[LayerListBox.SelectedIndex];
+
+            LayersOC.Insert(LayerListBox.SelectedIndex + 2, _movingLayer);
+            LayersOC.RemoveAt(LayerListBox.SelectedIndex);
+        }
+
+        private void Rename_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.Rename rename = new Windows.Rename();
+            rename.Start(LayersOC[LayerListBox.SelectedIndex].Name, "Layer Name");
+            rename.ShowDialog();
+
+            LayersOC[LayerListBox.SelectedIndex].Name = rename.ChangedText;
+
+            UpdateLayers();
+        }
+
+        private void SelectAll_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in LayersOC)
+            {
+                item.Selected = true;
+            }
+        }
+
+        private void SelectAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in LayersOC)
+            {
+                item.Selected = false;
             }
         }
     }

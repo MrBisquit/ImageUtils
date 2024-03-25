@@ -11,12 +11,30 @@
         Loaded="Window_Loaded"
         LocationChanged="Window_LocationChanged">
     <Grid>
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <CheckBox Margin="6" Name="SelectAll" Checked="SelectAll_Checked" Unchecked="SelectAll_Unchecked"></CheckBox>
+        </Grid>
+        
+        <ScrollViewer Grid.Row="1">
             <Grid>
                 <ListBox Name="LayerListBox" AllowDrop="True" PreviewMouseLeftButtonDown="LayerListBox_PreviewMouseLeftButtonDown"
                          Drop="LayerListBox_Drop"
                          DragEnter="LayerListBox_DragEnter"
                          MouseMove="LayerListBox_MouseMove">
+                    <ListBox.ContextMenu>
+                        <ContextMenu Opened="ContextMenu_Opened" Name="ListContextMenu">
+                            <MenuItem Header="Move up" Name="MoveUp" Click="MoveUp_Click"></MenuItem>
+                            <MenuItem Header="Move down" Name="MoveDown" Click="MoveDown_Click"></MenuItem>
+                            <MenuItem Header="Duplicate" Name="Dupe" Click="Dupe_Click"></MenuItem>
+                            <MenuItem Header="Rename" Name="Rename" Click="Rename_Click"></MenuItem>
+                            <MenuItem Header="Delete" Name="Del" Click="Del_Click"></MenuItem>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -25,10 +43,13 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
 
-                                <CheckBox IsChecked="{Binding Visible, Mode=TwoWay}" VerticalAlignment="Center"
-                                          Checked="CheckBox_Checked"
-                                          Unchecked="CheckBox_Unchecked"
-                                          MouseDown="CheckBox_MouseDown"></CheckBox>
+                                <StackPanel VerticalAlignment="Center">
+                                    <CheckBox IsChecked="{Binding Selected, Mode=TwoWay}" VerticalAlignment="Center"></CheckBox>
+                                    <CheckBox IsChecked="{Binding Visible, Mode=TwoWay}" VerticalAlignment="Center"
+                                              Checked="CheckBox_Checked"
+                                              Unchecked="CheckBox_Unchecked"
+                                              MouseDown="CheckBox_MouseDown" Style="{StaticResource CustomCheckBox}"></CheckBox>
+                                </StackPanel>
                                 <StackPanel Grid.Column="1" Margin="6">
                                     <Image Source="{Binding Preview}" Width="125" Height="125"></Image>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding Name}"></TextBlock>

@@ -27,6 +27,14 @@ namespace ImageUtils
             Globals.mainWindow = this;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Events.LayerUpdate += (object? sender, EventArgs e) =>
+            {
+                UpdateImage();
+            };
+        }
+
         public Bitmap bm;
         public Windows.Layers LayersWindow = null;
 
@@ -41,7 +49,7 @@ namespace ImageUtils
             if((bool)ofd.ShowDialog())
             {
                 bm = new Bitmap(System.Drawing.Image.FromFile(ofd.FileName));
-                UpdateImage();
+                //UpdateImage();
 
                 Project.ProjectManager.CreateTempProject();
                 Project.LayerManager.Layers.Add(new Project.Layer() { LayerLevel = 0, Content = bm, Visible = true, Name = "Top Layer" });
@@ -52,12 +60,15 @@ namespace ImageUtils
                     LayersWindow = new Windows.Layers();
                     LayersWindow.Show();
                 }
+
+                Events.RaiseLayerUpdate(EventArgs.Empty);
             }
         }
 
         public void UpdateImage()
         {
-            MainImage.Source = ToBitmapImage(bm);
+            MainImage.Source = ToBitmapImage(Project.LayerManager.MergeLayers());
+            //MainImage.Source = ToBitmapImage(bm);
         }
 
         // https://stackoverflow.com/a/23831231/16426057
@@ -131,6 +142,18 @@ namespace ImageUtils
         {
             bm = Effects.DarkenImage.Sheen(bm);
             UpdateImage();
+        }
+
+        private void BrightnessBrightenEffects_Click(object sender, RoutedEventArgs e)
+        {
+            bm = Effects.DarkenImage.Brighten(bm);
+            UpdateImage();
+        }
+
+        private void SplitLayersLayers_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.LayerSplitter layerSplitter = new Windows.LayerSplitter();
+            layerSplitter.ShowDialog();
         }
     }
 }

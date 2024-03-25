@@ -1,0 +1,32 @@
+﻿<Window x:Class="ImageUtils.Windows.Rename"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageUtils.Windows"
+        mc:Ignorable="d"
+        Title="Rename"
+        Height="150"
+        Width="300"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="6">
+                <Label Name="InputLabel">Unknown:</Label>
+                <TextBox Name="InputBox"></TextBox>
+            </StackPanel>
+
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="6">
+                <Button Width="75" Name="CancelBtn" Click="CancelBtn_Click">Cancel</Button>
+                <Label></Label>
+                <Button Width="100" Name="RenameBtn" Click="RenameBtn_Click">Rename</Button>
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Window>

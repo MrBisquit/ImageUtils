@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageUtils"
         mc:Ignorable="d"
-        Title="ImageUtils" Height="450" Width="800">
+        Title="ImageUtils" Height="450" Width="800"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -26,6 +27,8 @@
                 </MenuItem>
 
                 <MenuItem Header="Brightness" Name="Brightness">
+                    <MenuItem Header="Brighten" Name="BrightnessBrightenEffects" Click="BrightnessBrightenEffects_Click"></MenuItem>
+                    <Separator></Separator>
                     <MenuItem Header="Darken" Name="BrightnessDarkenEffects" Click="BrightnessDarkenEffects_Click"></MenuItem>
                     <MenuItem Header="Matte darken" Name="BrightnessMatteDarkenEffects" Click="BrightnessMatteDarkenEffects_Click"></MenuItem>
                     <MenuItem Header="Sheen darken" Name="BrightnessSheenDarkenEffects" Click="BrightnessSheenDarkenEffects_Click"></MenuItem>
@@ -47,7 +50,7 @@
             </MenuItem>
 
             <MenuItem Header="Layers">
-                <MenuItem Header="Split Layers"></MenuItem>
+                <MenuItem Header="Split Layers" Name="SplitLayersLayers" Click="SplitLayersLayers_Click"></MenuItem>
             </MenuItem>
         </Menu>
 

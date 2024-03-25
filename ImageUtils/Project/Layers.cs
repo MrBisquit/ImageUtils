@@ -41,5 +41,7 @@ namespace ImageUtils.Project
         public Bitmap Content = new Bitmap(1, 1);
         public BitmapImage Preview { get; set; } = Globals.mainWindow.ToBitmapImage(new Bitmap(1, 1));
         public string Name { get; set; } = "Layer 0";
+
+        public bool Selected = true;
     }
 }

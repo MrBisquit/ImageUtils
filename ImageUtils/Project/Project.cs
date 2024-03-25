@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageUtils.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace ImageUtils.Project
             OpenProject.Name = "$TEMP-" + Guid.NewGuid().ToString();
 
             Globals.mainWindow.Title = $"ImageUtils - Project: {OpenProject.Name}";
+
+            LayerManager.Layers.Clear();
         }
     }
 }
