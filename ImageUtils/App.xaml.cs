@@ -9,6 +9,13 @@ namespace ImageUtils
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            MainWindow = new MainWindow();
+            ImageUtils.Windows.Splash splash = new ImageUtils.Windows.Splash();
+            splash.Show();
+            MainWindow.Show();
+            splash.Close();
+        }
     }
-
 }

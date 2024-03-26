@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ImageUtils"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             StartupUri="MainWindow.xaml">
+             Startup="Application_Startup">
+    <!-- StartupUri="MainWindow.xaml" -->
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
         
